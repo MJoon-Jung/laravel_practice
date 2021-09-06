@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\LoginController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,4 +16,12 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
+})->name('home');
+Route::get('/dashboard', function () {
+    return view('welcome');
+});
+
+Route::prefix('/api/auth/google')->group(function () {
+    Route::get('/', [LoginController::class, 'redirectToProvider'])->name('login');
+    Route::get('/redirect', [LoginController::class, 'handleProviderCallback']);
 });
