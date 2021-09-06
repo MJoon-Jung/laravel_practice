@@ -16,14 +16,14 @@ class CommentFactory extends Factory
 
     /**
      * Define the model's default state.
-    *
+     *
      * @return array
      */
     public function definition()
     {
         return [
-            'content' => $this->faker->text(),
-            'user_id' => 1
+            'content'=>$this->faker->sentence(),
+            'user_id'=>1,
         ];
     }
 }

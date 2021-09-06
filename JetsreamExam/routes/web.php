@@ -21,4 +21,10 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
     return view('dashboard');
 })->name('dashboard');
 
-Route::middleware(['auth:sanctum', 'verified'])->get('/comment/{comment_id}')->name('comment');
+Route::get('/home', function () {
+    return view('home');
+});
+
+Route::get('/comments', function () {
+    return view('home');
+})->name('comments');

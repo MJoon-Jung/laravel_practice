@@ -42,7 +42,6 @@ class JetstreamServiceProvider extends ServiceProvider
         Jetstream::deleteUsersUsing(DeleteUser::class);
     }
 
-
     /**
      * Configure the roles and permissions that are available within the application.
      *
