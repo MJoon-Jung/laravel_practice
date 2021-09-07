@@ -20,10 +20,10 @@ class LoginController extends Controller
         if (empty($user->user["hd"])) {
             return redirect()->route('home');
         }
-        User::firstOrCreate(
+        $newUser = User::firstOrCreate(
             ['id'=>$user->getId()],
             ['email'=>$user->getEmail()],
         );
-        return redirect()->to('/dashboard');
+        return $newUser->createToken('token-name')->plainTextToken;
     }
 }
