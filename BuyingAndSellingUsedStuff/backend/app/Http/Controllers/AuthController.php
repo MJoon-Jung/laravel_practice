@@ -1,26 +1,66 @@
 <?php
-
+/**
+ * @OA\Info(
+ *      version="1.0.0",
+ *      title="BuyingAndSellingUsedStuff project",
+ *      description="laravel project 2학기 과제",
+ *      @OA\Contact(
+ *          email="gjgjajaj31@gmail.com"
+ *      ),
+ * )
+ */
 namespace App\Http\Controllers;
 
 use App\Models\User;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Socialite\Facades\Socialite;
 
+/**
+ * Class Auth
+ *
+ * @package App\Http\Controllers\AuthController
+ *
+ * @author  MJoon-Jung <gjgjajaj31@gmail.com>
+ */
 class AuthController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['redirectToProvider', 'handleProviderCallback']]);
+        $this->middleware('auth:web', ['except' => ['redirectToProvider', 'handleProviderCallback']]);
     }
+    /**
+     *
+     * @OA\Get(
+     *     path="/api/auth/login",
+     *     summary="구글 로그인",
+     *     description="oauth2 callback을 넘겨주는 통로",
+     *     @OA\Response(
+     *         response=302,
+     *         description="구글 로그인 "
+     *     ),
+     *     tags={"Auth"},
+     * )
+     */
     public function redirectToProvider()
     {
-        return Socialite::driver('google')->stateless()->redirect();
+        return Socialite::driver('google')->redirect();
     }
-
+    /**
+     *
+     * @OA\Get(
+     *     path="/api/auth/login/callback",
+     *     summary="구글 로그인",
+     *     description="oauth2 callback",
+     *     @OA\Response(
+     *         response=302,
+     *         description="구글 로그인 "
+     *     ),
+     *     tags={"Auth"},
+     * )
+     */
     public function handleProviderCallback()
     {
-        $user_info = Socialite::driver('google')->stateless()->user();
+        $user_info = Socialite::driver('google')->user();
         $user_profile = $user_info->user;
 
         if (empty($user_profile["hd"]) || $user_profile["hd"] != env('GOOGLE_HD')) {
@@ -37,34 +77,12 @@ class AuthController extends Controller
             'password'=> bcrypt($user_info->getId())],
         );
 
-        $credentials = ['email'=>$user-> email, 'password'=>$user->id];
+        Auth::login($user, true);
 
-        if (! $token = Auth::attempt($credentials)) {
-            return response()->json(['error' => 'Unauthorized'], 401);
-        }
-
-        return $this->respondWithToken($token);
-    }
-    protected function respondWithToken($token)
-    {
-        return response()->json([
-            'access_token' => $token,
-            'token_type' => 'bearer',
-            'expires_in' => Auth::factory()->getTTL() * 60
-        ]);
+        return redirect()->away('http://localhost:3060');
     }
     public function me()
     {
-        return response()->json(auth()->user());
-    }
-    public function logout()
-    {
-        Auth::logout();
-
-        return response()->json(['message' => 'Successfully logged out']);
-    }
-    public function refresh()
-    {
-        return $this->respondWithToken(Auth::refresh());
+        return auth()->user();
     }
 }

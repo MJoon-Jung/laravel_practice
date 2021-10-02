@@ -1,0 +1,46 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "BuyingAndSellingUsedStuff project",
+        "description": "laravel project 2학기 과제",
+        "contact": {
+            "email": "gjgjajaj31@gmail.com"
+        },
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/api/auth/login": {
+            "get": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "구글 로그인",
+                "description": "oauth2 callback을 넘겨주는 통로",
+                "operationId": "d258c46c7ec3573047c727591726c08f",
+                "responses": {
+                    "302": {
+                        "description": "구글 로그인 "
+                    }
+                }
+            }
+        },
+        "/api/auth/login/callback": {
+            "get": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "구글 로그인",
+                "description": "oauth2 callback",
+                "operationId": "0ebf054e9c8884806272c08ed025fdb0",
+                "responses": {
+                    "302": {
+                        "description": "구글 로그인 "
+                    }
+                }
+            }
+        }
+    },
+    "security": [
+        []
+    ]
+}

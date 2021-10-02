@@ -162,6 +162,9 @@ return [
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
 
+        //swagger
+        L5Swagger\L5SwaggerServiceProvider::class,
+
         /*
          * Package Service Providers...
          */
@@ -175,8 +178,6 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
-        //JWT Service Provider
-        Tymon\JWTAuth\Providers\LaravelServiceProvider::class,
     ],
 
     /*
