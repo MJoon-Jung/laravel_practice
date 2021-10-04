@@ -24,10 +24,10 @@ use Laravel\Socialite\Facades\Socialite;
  */
 class AuthController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth:web', ['except' => ['redirectToProvider', 'handleProviderCallback']]);
-    }
+    // public function __construct()
+    // {
+    //     $this->middleware('guest')->except('logout');
+    // }
     /**
      *
      * @OA\Get(
@@ -43,7 +43,7 @@ class AuthController extends Controller
      */
     public function redirectToProvider()
     {
-        return Socialite::driver('google')->redirect();
+        return Socialite::driver('google')->stateless()->redirect();
     }
     /**
      *
@@ -60,7 +60,13 @@ class AuthController extends Controller
      */
     public function handleProviderCallback()
     {
-        $user_info = Socialite::driver('google')->user();
+        try {
+            $user_info = Socialite::driver('google')->stateless()->user();
+            // $user = Socialite::driver('facebook')->stateless()->user();
+        } catch (\Exception $e) {
+            return redirect()->route('login');
+        }
+        
         $user_profile = $user_info->user;
 
         if (empty($user_profile["hd"]) || $user_profile["hd"] != env('GOOGLE_HD')) {
@@ -79,10 +85,31 @@ class AuthController extends Controller
 
         Auth::login($user, true);
 
-        return redirect()->away('http://localhost:3060');
+        return redirect()->away(env('CLIENT_BASE_URL'));
     }
-    public function me()
+    /**
+     *
+     * @OA\Post(
+     *     path="/api/auth/logout",
+     *     summary="로그 아웃",
+     *     description="로그 아웃",
+     *     @OA\Response(
+     *         response=200,
+     *         description="logout success",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="status", type="string", example="200"),
+     *             @OA\Property(property="message", type="string", example="logout success"),
+     *         )
+     *     ),
+     *     tags={"Auth"},
+     * )
+     */
+    public function logout()
     {
-        return auth()->user();
+        Auth::logout();
+        return response()->json([
+            'status' => '200',
+            'message' => 'logout success',
+        ], 200);
     }
 }

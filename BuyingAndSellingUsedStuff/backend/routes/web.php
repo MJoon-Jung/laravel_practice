@@ -15,16 +15,23 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
 
+// Route::get('api/auth/login', [AuthController::class, "redirectToProvider"])->name('login');
+// Route::get('api/auth/login/callback', [AuthController::class, "handleProviderCallback"]);
 
 Route::group([
     'prefix' => 'api/auth',
-    'middleware' => 'auth:web',
 ], function ($router) {
-    Route::get('/login', [AuthController::class, "redirectToProvider"])->name('login');
-    Route::get('/login/callback', [AuthController::class, "handleProviderCallback"]);
-    Route::get('/me', [AuthController::class, "handleProviderCallback"]);
+    Route::group([
+        'prefix' => 'login',
+        'middleware' => 'guest',
+    ], function ($router) {
+        Route::get('/', [AuthController::class, "redirectToProvider"])->name('login');
+        Route::get('/callback', [AuthController::class, "handleProviderCallback"]);
+    });
+    Route::group([
+        'middleware' => 'auth',
+    ], function ($router) {
+        Route::post('/logout', [AuthController::class, "logout"]);
+    });
 });
