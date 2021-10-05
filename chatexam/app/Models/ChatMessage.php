@@ -10,13 +10,17 @@ class ChatMessage extends Model
     use HasFactory;
     protected $fillable = [
         'message',
+        'user_id',
+        'chat_room_id',
     ];
 
-    public function room() {
+    public function room()
+    {
         return $this->belonsTo(ChatRoom::class, 'chat_room_id');
     }
 
-    public function user() {
+    public function user()
+    {
         return $this->belongsTo(User::class);
     }
 }

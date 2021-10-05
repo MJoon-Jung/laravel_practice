@@ -18,6 +18,4 @@ class ChatRoomSeeder extends Seeder
         ChatRoom::create(['name'=>'WDJ']);
         ChatRoom::create(['name'=>'laravel ']);
     }
-
-
 }

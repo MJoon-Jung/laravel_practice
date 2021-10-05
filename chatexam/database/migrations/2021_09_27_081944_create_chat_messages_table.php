@@ -16,10 +16,8 @@ class CreateChatMessagesTable extends Migration
         Schema::create('chat_messages', function (Blueprint $table) {
             $table->id();
             $table->Text('message');
-            $table->unsignedBigInteger('user_id');
-            // $table->foreignId('user_id');
-            $table->unsignedBigInteger('chat_room_id');
-            // $table->foreignId('chat_room_id');
+            $table->foreignId('user_id')->constrained();
+            $table->foreignId('chat_room_id')->constrained();
             $table->timestamps();
         });
     }
