@@ -1,8 +1,7 @@
 <?php
 
-namespace App\Models;
+namespace App\Domains\User;
 
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -44,4 +43,33 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function requestFriend()
+    {
+        return $this->hasMany($this, 'user_id');
+    }
+    public function receiveFriend()
+    {
+        return $this->hasMany($this, 'friend_id');
+    }
+    public function groups()
+    {
+        return $this->belongsToMany('App\Models\Group')->using('App\Models\GroupUser');
+    }
+    public function likePost()
+    {
+        return $this->hasMany('App\Models\LikePost');
+    }
+    public function posts()
+    {
+        return $this->hasMany('App\Models\Post');
+    }
+    public function rooms()
+    {
+        return $this->belongsToMany('App\Models\Room')->using('App\Models\RoomUser');
+    }
+    public function roomchats()
+    {
+        return $this->hasMany('App\Models\Roomchat');
+    }
 }

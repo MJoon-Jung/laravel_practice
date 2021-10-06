@@ -9,25 +9,31 @@
  *      ),
  * )
  */
-namespace App\Http\Controllers;
+namespace App\Domains\User\Controller;
 
-use App\Models\User;
+use App\Domains\User\Services\UserService;
+use App\Http\Controllers\Controller;
+use Exception;
 use Illuminate\Support\Facades\Auth;
+use InvalidArgumentException;
 use Laravel\Socialite\Facades\Socialite;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 /**
  * Class Auth
  *
- * @package App\Http\Controllers\AuthController
+ * @package App\Domains\User\Controller;
  *
  * @author  MJoon-Jung <gjgjajaj31@gmail.com>
  */
 class AuthController extends Controller
 {
-    // public function __construct()
-    // {
-    //     $this->middleware('guest')->except('logout');
-    // }
+    private $userService;
+
+    public function __construct(UserService $userService)
+    {
+        $this->userService = $userService;
+    }
     /**
      *
      * @OA\Get(
@@ -62,26 +68,23 @@ class AuthController extends Controller
     {
         try {
             $user_info = Socialite::driver('google')->stateless()->user();
-            // $user = Socialite::driver('facebook')->stateless()->user();
         } catch (\Exception $e) {
             return redirect()->route('login');
         }
-        
-        $user_profile = $user_info->user;
 
-        if (empty($user_profile["hd"]) || $user_profile["hd"] != env('GOOGLE_HD')) {
-            return response()->json([
-                'status' => '403 Forbidden',
-                'messages' => '영진전문대 gsuit 계정이 아닙니다.'
-            ], 403);
+        try {
+            $user = $this->userService->firstOrCreateByGsuitHd(
+                $user_info->user,
+                ['email'=>$user_info->getEmail()],
+                ['name' =>$user_info->getName(),
+                'password'=> bcrypt($user_info->getId())]
+            );
+        } catch (BadRequestHttpException $e) {
+            //에러 화면과 되돌아가기 화면을 제공해줘야 함
+            //hd가 다르면 오류가 나오는 데 사용자는 그걸 모를 수 있음
+            return response()->json(['status' => 402, 'message' => $e->getMessage()]);
+            // return redirect()->route('login');
         }
-        
-        $user = User::firstOrCreate(
-            ['id'=>$user_info->getId()],
-            ['email'=>$user_info->getEmail(),
-            'name' =>$user_info->getName(),
-            'password'=> bcrypt($user_info->getId())],
-        );
 
         Auth::login($user, true);
 
