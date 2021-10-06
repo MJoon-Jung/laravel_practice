@@ -42,6 +42,8 @@ class ChatController extends Controller
             'chat_room_id' => $roomId,
             'message' => $request->message,
         ]);
+
+        broadcast()->toOthers();
         return $chat;
     }
 }
