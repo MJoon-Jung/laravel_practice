@@ -3,7 +3,7 @@
 use App\Domains\Post\Controllers\PostController;
 use App\Domains\User\Controller\UserController;
 use App\Domains\User\Controller\AuthController;
-use App\Http\Controllers\FriendController;
+use App\Domains\User\Controller\FriendController;
 use App\Http\Controllers\GroupController;
 use App\Http\Controllers\GroupUserController;
 use App\Http\Controllers\RoomController;
@@ -44,18 +44,17 @@ Route::group([
     'middleware' => 'auth',
 ], function () {
     Route::get('/', [UserController::class, "index"]);
-    Route::get('/{id}', [UserController::class, "show"]);
-    Route::post('/profile', [UserController::class, "update"]);
-    Route::delete('/{id}', [UserController::class, "destroy"]);
-
     //Friend
     Route::group([
         'prefix' => 'friends',
     ], function () {
         Route::get('/', [FriendController::class, "index"]);
-        Route::post('/', [FriendController::class, "store"]);
-        Route::delete('/', [FriendController::class, "destroy"]);
+        Route::post('/{user}', [FriendController::class, "store"]);
+        Route::delete('/{user}', [FriendController::class, "destroy"]);
     });
+    Route::get('/{user}', [UserController::class, "show"]);
+    Route::post('/profile', [UserController::class, "updateProfile"]);
+    Route::delete('/', [UserController::class, "destroy"]);
 });
 
 //Post

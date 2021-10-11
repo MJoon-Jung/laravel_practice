@@ -46,11 +46,11 @@ class User extends Authenticatable
 
     public function requestFriend()
     {
-        return $this->hasMany($this, 'user_id');
+        return $this->hasMany("App\Models\Friend", 'user_id');
     }
     public function receiveFriend()
     {
-        return $this->hasMany($this, 'friend_id');
+        return $this->hasMany("App\Models\Friend", 'friend_id');
     }
     public function groups()
     {

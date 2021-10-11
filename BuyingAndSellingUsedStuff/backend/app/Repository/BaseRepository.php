@@ -112,7 +112,7 @@ class BaseRepository implements EloquentRepositoryInterface
      * Update existing model.
      *
      * @param int $modelId
-     * @param array $payload
+     * @param array $payloadW
      * @return bool
      */
     public function update(int $modelId, array $payload): bool

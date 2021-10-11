@@ -2,9 +2,12 @@
 
 namespace App\Domains\User\Controller;
 
+use App\Domains\User\Dto\CreateUserProfileDto;
 use App\Domains\User\Services\UserService;
+use App\Domains\User\User;
 use App\Http\Controllers\Controller;
-use App\Repository\User\UserRepositoryInterface;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -19,8 +22,20 @@ class UserController extends Controller
     {
         return response()->json([$this->userService->all()], 200);
     }
-    public function show(int $id)
+    public function show(User $user)
     {
-        return response()->json([$this->userService->findById($id)], 200);
+        // return response()->json([$this->userService->findById($id)], 200);
+        return response()->json(['user' => $user]);
+    }
+    public function updateProfile(Request $request)
+    {
+        $profile = new CreateUserProfileDto();
+        $profile = $profile->fromRequest($request);
+        
+        return response()->json([$this->userService->updateProfile(auth()->user()->id, $profile)], 200);
+    }
+    public function destroy()
+    {
+        return response()->json([$this->userService->destroy(auth()->user()->id)], 200);
     }
 }

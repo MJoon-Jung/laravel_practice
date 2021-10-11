@@ -16,18 +16,17 @@ class CreateRoomUserTable extends Migration
         Schema::create('room_user', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->foreignId('room_id')
-                ->unique()
                 ->constrained()
                 ->cascadeOnUpdate()
                 ->cascadeOnDelete();
             $table->foreignId('user_id')
-                ->unique()
                 ->constrained()
                 ->cascadeOnUpdate()
                 ->cascadeOnDelete();
             //권한 0이 일반 1이 관리자
             $table->boolean('room_admin');
             $table->timestamps();
+            $table->unique(['user_id', 'room_id']);
             $table->index(['room_id', 'user_id']);
         });
     }

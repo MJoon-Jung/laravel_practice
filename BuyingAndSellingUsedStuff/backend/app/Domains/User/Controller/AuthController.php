@@ -13,9 +13,7 @@ namespace App\Domains\User\Controller;
 
 use App\Domains\User\Services\UserService;
 use App\Http\Controllers\Controller;
-use Exception;
 use Illuminate\Support\Facades\Auth;
-use InvalidArgumentException;
 use Laravel\Socialite\Facades\Socialite;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 

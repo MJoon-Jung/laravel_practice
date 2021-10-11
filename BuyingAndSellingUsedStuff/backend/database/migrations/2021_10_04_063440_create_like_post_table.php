@@ -16,16 +16,15 @@ class CreateLikePostTable extends Migration
         Schema::create('like_post', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->foreignId('user_id')
-                ->unique()
                 ->constrained()
                 ->cascadeOnUpdate()
                 ->cascadeOnDelete();
             $table->foreignId('post_id')
-                ->unique()
                 ->constrained()
                 ->cascadeOnUpdate()
                 ->cascadeOnDelete();
             $table->timestamps();
+            $table->unique(['user_id', 'post_id']);
             $table->index(['user_id', 'post_id']);
         });
     }

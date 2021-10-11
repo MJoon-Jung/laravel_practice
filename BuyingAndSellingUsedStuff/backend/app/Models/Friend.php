@@ -18,10 +18,10 @@ class Friend extends Model
 
     public function requestFriend()
     {
-        return $this->belongsTo('App\Models\User', 'user_id');
+        return $this->belongsTo('App\Domains\User\User', 'user_id');
     }
     public function receiveFriend()
     {
-        return $this->belongsTo('App\Models\User', 'friend_id');
+        return $this->belongsTo('App\Domains\User\User', 'user_id');
     }
 }

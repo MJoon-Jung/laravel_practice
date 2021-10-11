@@ -16,16 +16,18 @@ class CreateFriendsTable extends Migration
         Schema::create('friends', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->foreignId('user_id')
-                ->unique()
                 ->constrained()
                 ->cascadeOnUpdate()
                 ->cascadeOnDelete();
-            $table->foreignId('friend_id')
-                ->unique()
+            $table->unsignedBigInteger('friend_id');
+            $table->foreign('friend_id')
+                ->references('id')
+                ->on('users')
                 ->constrained()
                 ->cascadeOnUpdate()
                 ->cascadeOnDelete();
             $table->timestamps();
+            $table->unique(['user_id', 'friend_id']);
             $table->index(['user_id', 'friend_id']);
         });
     }
