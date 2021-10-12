@@ -79,7 +79,7 @@ Route::group([
     Route::get('/', [GroupController::class, "index"]);
     Route::get('/{id}', [GroupController::class, "show"]);
     Route::post('/', [GroupController::class, "store"]);
-    Route::patch('/{id}', [GroupController::class, "update"]);
+    Route::patch('/{group}', [GroupController::class, "update"]);
     Route::delete('/{id}', [GroupController::class, "destroy"]);
     Route::group([
         'prefix' => 'users',
