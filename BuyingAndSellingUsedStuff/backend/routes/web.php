@@ -49,10 +49,10 @@ Route::group([
         'prefix' => 'friends',
     ], function () {
         Route::get('/', [FriendController::class, "index"]);
-        Route::post('/{user}', [FriendController::class, "store"]);
-        Route::delete('/{user}', [FriendController::class, "destroy"]);
+        Route::post('/{id}', [FriendController::class, "store"]);
+        Route::delete('/{id}', [FriendController::class, "destroy"]);
     });
-    Route::get('/{user}', [UserController::class, "show"]);
+    Route::get('/{id}', [UserController::class, "show"]);
     Route::post('/profile', [UserController::class, "updateProfile"]);
     Route::delete('/', [UserController::class, "destroy"]);
 });
@@ -85,10 +85,10 @@ Route::group([
         'prefix' => 'users',
     ], function () {
         Route::get('/', [GroupUserController::class, "index"]);
-        Route::get('/{user_id}', [GroupUserController::class, "show"]);
+        Route::get('/{userId}', [GroupUserController::class, "show"]);
         Route::post('/', [GroupUserController::class, "store"]);
-        Route::patch('/{user_id}', [GroupUserController::class, "update"]);
-        Route::delete('/{user_id}', [GroupUserController::class, "destroy"]);
+        Route::patch('/{userId}', [GroupUserController::class, "update"]);
+        Route::delete('/{userId}', [GroupUserController::class, "destroy"]);
     });
 });
 

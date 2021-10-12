@@ -54,7 +54,7 @@ class User extends Authenticatable
     }
     public function groups()
     {
-        return $this->belongsToMany('App\Models\Group')->using('App\Models\GroupUser');
+        return $this->hasMany('App\Models\GroupUser');
     }
     public function likePost()
     {

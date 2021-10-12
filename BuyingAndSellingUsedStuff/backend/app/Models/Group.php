@@ -13,9 +13,17 @@ class Group extends Model
         'name',
     ];
 
+    // public function users()
+    // {
+    //     return $this->hasMany('App\Domains\User\User')->using('App\Models\GroupUser');
+    // }
     public function users()
     {
-        return $this->belongsToMany('App\Models\User')->using('App\Models\GroupUser');
+        return $this->hasMany('App\Models\GroupUser');
+    }
+    public function user()
+    {
+        return $this->belongsTo('App\Models\GroupUser');
     }
     public function post()
     {
