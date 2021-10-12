@@ -14,7 +14,7 @@ class CreateRoomchatsTable extends Migration
     public function up()
     {
         Schema::create('roomchats', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->id();
             $table->text('content');
             $table->foreignId('room_id')
                 ->nullable()
@@ -27,7 +27,8 @@ class CreateRoomchatsTable extends Migration
                 ->cascadeOnUpdate()
                 ->nullOnDelete();
             $table->timestamps();
-            $table->index(['room_id', 'user_id']);
+            $table->index('user_id', 'unique_roomchats_user_id');
+            $table->index('room_id', 'unique_roomchats_room_id');
         });
     }
 

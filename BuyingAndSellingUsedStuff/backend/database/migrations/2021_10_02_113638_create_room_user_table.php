@@ -14,7 +14,7 @@ class CreateRoomUserTable extends Migration
     public function up()
     {
         Schema::create('room_user', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->id();
             $table->foreignId('room_id')
                 ->constrained()
                 ->cascadeOnUpdate()
@@ -27,7 +27,8 @@ class CreateRoomUserTable extends Migration
             $table->boolean('room_admin');
             $table->timestamps();
             $table->unique(['user_id', 'room_id']);
-            $table->index(['room_id', 'user_id']);
+            $table->index('user_id', 'unique_room_user_user_id');
+            $table->index('room_id', 'unique_room_user_room_id');
         });
     }
 

@@ -14,7 +14,7 @@ class CreatePostsTable extends Migration
     public function up()
     {
         Schema::create('posts', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->id();
             $table->string('title', 100);
             $table->text('content');
             $table->foreignId('user_id')
@@ -28,7 +28,7 @@ class CreatePostsTable extends Migration
                 ->cascadeOnUpdate()
                 ->nullOnDelete();
             $table->timestamps();
-            $table->index(['user_id', 'group_id']);
+            $table->index('group_id', 'unique_posts_group_id');
         });
     }
 

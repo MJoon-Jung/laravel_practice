@@ -14,7 +14,7 @@ class CreateGroupUserTable extends Migration
     public function up()
     {
         Schema::create('group_user', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->id();
             $table->foreignId('group_id')
                 ->constrained()
                 ->cascadeOnUpdate()
@@ -27,7 +27,8 @@ class CreateGroupUserTable extends Migration
             $table->boolean('group_admin');
             $table->timestamps();
             $table->unique(['user_id', 'group_id']);
-            $table->index(['group_id', 'user_id']);
+            $table->index('user_id', 'unique_group_user_user_id');
+            $table->index('group_id', 'unique_group_user_group_id');
         });
     }
 

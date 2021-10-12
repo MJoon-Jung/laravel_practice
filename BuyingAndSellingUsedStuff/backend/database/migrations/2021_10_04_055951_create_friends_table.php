@@ -14,7 +14,7 @@ class CreateFriendsTable extends Migration
     public function up()
     {
         Schema::create('friends', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->id();
             $table->foreignId('user_id')
                 ->constrained()
                 ->cascadeOnUpdate()
@@ -28,7 +28,8 @@ class CreateFriendsTable extends Migration
                 ->cascadeOnDelete();
             $table->timestamps();
             $table->unique(['user_id', 'friend_id']);
-            $table->index(['user_id', 'friend_id']);
+            $table->index('user_id', 'unique_friends_user_id');
+            $table->index('room_id', 'unique_friends_friend_id');
         });
     }
 
