@@ -13,19 +13,18 @@ class Post extends Model
         'title',
         'content',
         'user_id',
-        'group_id',
     ];
 
     public function user()
     {
-        return $this->belongsTo('App\Models\User');
+        return $this->belongsTo('App\Domains\User\User');
     }
-    public function groups()
-    {
-        return $this->hasMany('App\Models\Group');
-    }
-    public function likePost()
+    public function likePosts()
     {
         return $this->hasMany('App\Models\LikePost');
+    }
+    public function images()
+    {
+        return $this->hasMany('App\Models\ImagePost');
     }
 }

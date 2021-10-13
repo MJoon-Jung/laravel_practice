@@ -7,6 +7,7 @@ use App\Models\GroupUser;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class GroupController extends Controller
 {
@@ -27,6 +28,10 @@ class GroupController extends Controller
     }
     public function store(Request $request)
     {
+        $request->validate([
+            'name' => 'required|max:50|min:1',
+        ]);
+
         DB::transaction(function () use ($request) {
             $group = new Group(["name" => $request->name]);
             $group->save();
@@ -42,14 +47,27 @@ class GroupController extends Controller
     }
     public function update(Group $group, Request $request)
     {
+        $request->validate([
+            'name' => 'required|max:50|min:1',
+        ]);
+
         $member = GroupUser::where('group_id', $group->id)->where('user_id', Auth::user()->id)->get();
         if (!$member[0]->group_admin) {
-            return response()->json(['message'=> '그룹장이 아닙니다.'], 403);
+            throw new HttpException(403, '그룹장이 아닙니다.');
         }
 
         $group->name = $request->name;
         $group->save();
 
         return response(["message" => "group name update success"]);
+    }
+    public function destroy(Group $group)
+    {
+        $member = GroupUser::where('group_id', $group->id)->where('user_id', Auth::user()->id)->get();
+        if (!$member[0]->group_admin) {
+            throw new HttpException(403, '그룹장이 아닙니다.');
+        }
+        $group->delete();
+        return response(["message" => "success"]);
     }
 }

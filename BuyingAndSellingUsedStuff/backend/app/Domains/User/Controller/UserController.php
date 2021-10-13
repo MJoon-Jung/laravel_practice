@@ -29,10 +29,23 @@ class UserController extends Controller
     }
     public function updateProfile(Request $request)
     {
+        $request->validate([
+            'name' => 'required|max:30|min:1',
+            'gender' => 'required',
+        ]);
+
         $profile = new CreateUserProfileDto();
         $profile = $profile->fromRequest($request);
         
         return response()->json([$this->userService->updateProfile(auth()->user()->id, $profile)], 200);
+    }
+    public function image(Request $request)
+    {
+        $request->validate([
+            'image' => 'required',
+        ]);
+
+        return $request->file('image')->store('public');
     }
     public function destroy()
     {

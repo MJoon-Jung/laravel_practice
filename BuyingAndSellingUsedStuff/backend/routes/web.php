@@ -1,11 +1,10 @@
 <?php
 
-use App\Domains\Post\Controllers\PostController;
+use App\Domains\Post\Controller\PostController;
 use App\Domains\User\Controller\UserController;
 use App\Domains\User\Controller\AuthController;
 use App\Domains\User\Controller\FriendController;
 use App\Http\Controllers\GroupController;
-use App\Http\Controllers\GroupUserController;
 use App\Http\Controllers\RoomController;
 use App\Http\Controllers\RoomUserController;
 use Illuminate\Support\Facades\Route;
@@ -54,6 +53,7 @@ Route::group([
     });
     Route::get('/{id}', [UserController::class, "show"]);
     Route::post('/profile', [UserController::class, "updateProfile"]);
+    Route::post('/image', [UserController::class, "image"]);
     Route::delete('/', [UserController::class, "destroy"]);
 });
 
@@ -65,6 +65,7 @@ Route::group([
     Route::get('/', [PostController::class, "index"]);
     Route::get('/{id}', [PostController::class, "show"]);
     Route::post('/', [PostController::class, "store"]);
+    Route::post('/image', [PostController::class, "image"]);
     Route::patch('/{id}', [PostController::class, "update"]);
     Route::patch('/{id}/like', [PostController::class, "like"]);
     Route::delete('/{id}', [PostController::class, "destroy"]);
@@ -80,16 +81,8 @@ Route::group([
     Route::get('/{id}', [GroupController::class, "show"]);
     Route::post('/', [GroupController::class, "store"]);
     Route::patch('/{group}', [GroupController::class, "update"]);
-    Route::delete('/{id}', [GroupController::class, "destroy"]);
-    Route::group([
-        'prefix' => 'users',
-    ], function () {
-        Route::get('/', [GroupUserController::class, "index"]);
-        Route::get('/{userId}', [GroupUserController::class, "show"]);
-        Route::post('/', [GroupUserController::class, "store"]);
-        Route::patch('/{userId}', [GroupUserController::class, "update"]);
-        Route::delete('/{userId}', [GroupUserController::class, "destroy"]);
-    });
+    Route::patch('/{id}/invite/{userId}', [GroupController::class, "invite"]);
+    Route::delete('/{group}', [GroupController::class, "destroy"]);
 });
 
 //Room

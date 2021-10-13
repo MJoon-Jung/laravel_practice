@@ -2,22 +2,27 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\Pivot;
 
-class LikePost extends Pivot
+class ImagePost extends Pivot
 {
+    use HasFactory;
+
     public $incrementing = true;
-    
+
     protected $fillable = [
-        'user_id',
         'post_id',
+        'image_id',
     ];
-    public function posts()
+
+    public function post()
     {
         return $this->belongsTo('App\Domains\Post\Post');
     }
-    public function users()
+
+    public function image()
     {
-        return $this->belongsTo('App\Domains\User\User');
+        return $this->belongsTo('App\Models\Image');
     }
 }

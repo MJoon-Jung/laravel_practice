@@ -16,7 +16,6 @@ class User extends Authenticatable
      *
      * @var string[]
      */
-    public $incrementing = false;
     
     protected $fillable = [
         'id',
@@ -56,13 +55,13 @@ class User extends Authenticatable
     {
         return $this->hasMany('App\Models\GroupUser');
     }
-    public function likePost()
+    public function likePosts()
     {
         return $this->hasMany('App\Models\LikePost');
     }
     public function posts()
     {
-        return $this->hasMany('App\Models\Post');
+        return $this->hasMany('App\Domains\Post\Post');
     }
     public function rooms()
     {
