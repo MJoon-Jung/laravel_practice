@@ -27,8 +27,8 @@ class CreateRoomUserTable extends Migration
             $table->boolean('room_admin');
             $table->timestamps();
             $table->unique(['user_id', 'room_id']);
-            $table->index('user_id', 'unique_room_user_user_id');
-            $table->index('room_id', 'unique_room_user_room_id');
+            $table->index('user_id', 'room_user_user_id_idx');
+            $table->index('room_id', 'room_user_room_id_idx');
         });
     }
 

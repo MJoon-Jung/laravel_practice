@@ -27,8 +27,8 @@ class CreateGroupUserTable extends Migration
             $table->boolean('group_admin');
             $table->timestamps();
             $table->unique(['user_id', 'group_id']);
-            $table->index('user_id', 'unique_group_user_user_id');
-            $table->index('group_id', 'unique_group_user_group_id');
+            $table->index('user_id', 'group_user_user_id_idx');
+            $table->index('group_id', 'group_user_group_id_idx');
         });
     }
 

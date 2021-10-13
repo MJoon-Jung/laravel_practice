@@ -22,13 +22,8 @@ class CreatePostsTable extends Migration
                 ->constrained()
                 ->cascadeOnUpdate()
                 ->nullOnDelete();
-            $table->foreignId('group_id')
-                ->nullable()
-                ->constrained()
-                ->cascadeOnUpdate()
-                ->nullOnDelete();
             $table->timestamps();
-            $table->index('group_id', 'unique_posts_group_id');
+            $table->index('user_id', 'posts_user_id_idx');
         });
     }
 

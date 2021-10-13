@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateFriendsTable extends Migration
+class CreateImagePostTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,23 +13,20 @@ class CreateFriendsTable extends Migration
      */
     public function up()
     {
-        Schema::create('friends', function (Blueprint $table) {
+        Schema::create('image_post', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')
+            $table->foreignId('post_id')
+                ->nullable()
                 ->constrained()
                 ->cascadeOnUpdate()
                 ->cascadeOnDelete();
-            $table->unsignedBigInteger('friend_id');
-            $table->foreign('friend_id')
-                ->references('id')
-                ->on('users')
+            $table->foreignId('image_id')
+                ->nullable()
                 ->constrained()
                 ->cascadeOnUpdate()
                 ->cascadeOnDelete();
+            $table->index('post_id', 'image_post_post_id_idx');
             $table->timestamps();
-            $table->unique(['user_id', 'friend_id']);
-            $table->index('user_id', 'friends_user_id_idx');
-            $table->index('friend_id', 'friends_friend_id_idx');
         });
     }
 
@@ -40,6 +37,6 @@ class CreateFriendsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('friends');
+        Schema::dropIfExists('image_post');
     }
 }

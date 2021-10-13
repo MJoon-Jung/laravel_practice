@@ -27,8 +27,8 @@ class CreateRoomchatsTable extends Migration
                 ->cascadeOnUpdate()
                 ->nullOnDelete();
             $table->timestamps();
-            $table->index('user_id', 'unique_roomchats_user_id');
-            $table->index('room_id', 'unique_roomchats_room_id');
+            $table->index('user_id', 'roomchats_user_id_idx');
+            $table->index('room_id', 'roomchats_room_id_idx');
         });
     }
 
