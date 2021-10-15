@@ -22,10 +22,10 @@ class UserController extends Controller
     {
         return response()->json([$this->userService->all()], 200);
     }
-    public function show(User $user)
+    public function show(int $id)
     {
-        // return response()->json([$this->userService->findById($id)], 200);
-        return response()->json(['user' => $user]);
+        $user = User::where('id', $id)->with(['groups', 'likePosts', 'posts', 'rooms'])->get();
+        return response()->json($user);
     }
     public function updateProfile(Request $request)
     {

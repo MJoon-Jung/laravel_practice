@@ -11,6 +11,7 @@
  */
 namespace App\Domains\User\Controller;
 
+use App\Domains\User\Dto\GoogleOauthDto;
 use App\Domains\User\Services\UserService;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -69,14 +70,10 @@ class AuthController extends Controller
         } catch (\Exception $e) {
             return redirect()->route('login');
         }
+        $oauth = new GoogleOauthDto($user_info->getId(), $user_info->getEmail(), $user_info->getName(), isset($user_info->user["hd"]) ? $user_info->user["hd"] : null);
 
         try {
-            $user = $this->userService->firstOrCreateByGsuitHd(
-                $user_info->user,
-                ['email'=>$user_info->getEmail()],
-                ['name' =>$user_info->getName(),
-                'password'=> bcrypt($user_info->getId())]
-            );
+            $user = $this->userService->firstOrCreateByGsuitHd($oauth);
         } catch (BadRequestHttpException $e) {
             //에러 화면과 되돌아가기 화면을 제공해줘야 함
             //hd가 다르면 오류가 나오는 데 사용자는 그걸 모를 수 있음

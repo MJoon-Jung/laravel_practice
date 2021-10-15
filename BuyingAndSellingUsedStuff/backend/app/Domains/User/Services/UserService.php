@@ -3,6 +3,7 @@
 namespace App\Domains\User\Services;
 
 use App\Domains\User\Dto\CreateUserProfileDto;
+use App\Domains\User\Dto\GoogleOauthDto;
 use App\Domains\User\User;
 use App\Repository\User\UserRepositoryInterface;
 use Exception;
@@ -32,12 +33,12 @@ class UserService
     {
         return $this->userRepository->firstOrCreate($check, $payload);
     }
-    public function firstOrCreateByGsuitHd(array $profile, array $check, array $payload):?Model
+    public function firstOrCreateByGsuitHd(GoogleOauthDto $user):?Model
     {
-        if (empty($profile["hd"]) || $profile["hd"] != env('GOOGLE_HD')) {
+        if ($user->isNotGsuitEmail()) {
             throw new BadRequestHttpException("영진전문대 gsuit 계정이 아닙니다");
         }
-        return $this->userRepository->firstOrCreate($check, $payload);
+        return $this->userRepository->firstOrCreate(['email'=>$user->getEmail()], ['name'=>$user->getName(), 'password'=>$user->getPassword()]);
     }
     public function updateProfile(int $userId, CreateUserProfileDto $profile)
     {
