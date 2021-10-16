@@ -1,0 +1,340 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Meeting",
+        "description": "laravel project 2학기 과제",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/api/groups": {
+            "get": {
+                "tags": [
+                    "GROUPS"
+                ],
+                "summary": "유저가 가입한 그룹들 조회",
+                "operationId": "596f29bab18ba12b0642358ac1251f24",
+                "responses": {
+                    "200": {
+                        "description": "유저가 가입한 그룹들 조회 성공"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "GROUPS"
+                ],
+                "summary": "그룹 생성",
+                "operationId": "646da77219e8c736b821fe46e6bcb6e2",
+                "responses": {
+                    "201": {
+                        "description": "그룹 생성 성공"
+                    }
+                }
+            }
+        },
+        "/api/groups/{id}": {
+            "get": {
+                "tags": [
+                    "GROUPS"
+                ],
+                "summary": "유저가 가입한 특정 그룹 조회",
+                "operationId": "8ef19895e7f25ffd1f8336d2e8b6c65a",
+                "responses": {
+                    "200": {
+                        "description": "유저가 가입한 특정 그룹 조회 성공"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "GROUPS"
+                ],
+                "summary": "그룹 삭제",
+                "operationId": "04eab9746d5df91fbbf36c2255280820",
+                "responses": {
+                    "200": {
+                        "description": "그룹 삭제 성공"
+                    }
+                }
+            },
+            "patch": {
+                "tags": [
+                    "GROUPS"
+                ],
+                "summary": "그룹 정보 수정",
+                "operationId": "b4a732a01cce5fe419ed82156066243a",
+                "responses": {
+                    "200": {
+                        "description": "그룹 정보 수정 성공"
+                    }
+                }
+            }
+        },
+        "/api/posts": {
+            "get": {
+                "tags": [
+                    "Post"
+                ],
+                "summary": "전체 게시물 조회",
+                "operationId": "89eec88399e6b91f9eeb1a4a205cd593",
+                "responses": {
+                    "200": {
+                        "description": "전체 게시물 조회 성공"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Post"
+                ],
+                "summary": "게시물 등록",
+                "operationId": "c6bef4ec071ae885f8c2ddd922a47177",
+                "responses": {
+                    "201": {
+                        "description": "게시물 등록 성공"
+                    }
+                }
+            }
+        },
+        "/api/posts/{id}": {
+            "get": {
+                "tags": [
+                    "Post"
+                ],
+                "summary": "특정 게시물 조회",
+                "operationId": "9f0c2f88774a7749ae833ad36ba13652",
+                "responses": {
+                    "200": {
+                        "description": "특정 게시물 조회 성공"
+                    }
+                }
+            },
+            "patch": {
+                "tags": [
+                    "Post"
+                ],
+                "summary": "게시물 수정",
+                "operationId": "1791209f01948f525cf5900b30148ae9",
+                "responses": {
+                    "200": {
+                        "description": "게시물 수정 성공"
+                    }
+                }
+            }
+        },
+        "/api/posts/image": {
+            "post": {
+                "tags": [
+                    "Post"
+                ],
+                "summary": "게시물 이미지 저장",
+                "operationId": "7251eaa43feae53f2b2a23525f732922",
+                "responses": {
+                    "201": {
+                        "description": "게시물 이미지 저장 성공"
+                    }
+                }
+            }
+        },
+        "/api/posts/{id}/like": {
+            "delete": {
+                "tags": [
+                    "Post"
+                ],
+                "summary": "게시물 좋아요 취소",
+                "operationId": "29eb9472fe2f5385317d999311d64ba2",
+                "responses": {
+                    "200": {
+                        "description": "게시물 좋아요 취소 성공"
+                    }
+                }
+            },
+            "patch": {
+                "tags": [
+                    "Post"
+                ],
+                "summary": "게시물 좋아요",
+                "operationId": "23308ae2fbe602ac45afed86a9ab0db5",
+                "responses": {
+                    "200": {
+                        "description": "게시물 좋아요 성공"
+                    }
+                }
+            }
+        },
+        "/api/auth/login": {
+            "get": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "구글 로그인",
+                "description": "oauth2 callback을 넘겨주는 통로",
+                "operationId": "3b566f4248be496fea965d36f52d45bb",
+                "responses": {
+                    "302": {
+                        "description": "구글 로그인 콜백으로 이동"
+                    }
+                }
+            }
+        },
+        "/api/auth/login/callback": {
+            "get": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "구글 로그인",
+                "description": "oauth2 callback",
+                "operationId": "9e4b20670c9f10b427664dcc1f071460",
+                "responses": {
+                    "302": {
+                        "description": "구글 로그인 성공"
+                    }
+                }
+            }
+        },
+        "/api/auth/logout": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "로그 아웃",
+                "description": "로그 아웃",
+                "operationId": "08b63c432c2fdc108b5058a9b03f6ff2",
+                "responses": {
+                    "200": {
+                        "description": "로그아웃 성공",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "200"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "logout success"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/users/friends": {
+            "get": {
+                "tags": [
+                    "Friend"
+                ],
+                "summary": "자신의 친구 정보",
+                "description": "자신의 친구 정보",
+                "operationId": "42766dc810562f5d84ce3108fcf98fbd",
+                "responses": {
+                    "200": {
+                        "description": "자신의 친구 정보"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Friend"
+                ],
+                "summary": "친구 등록",
+                "operationId": "2f39e85387259822bdafaf80b8503c64",
+                "responses": {
+                    "201": {
+                        "description": "친구 등록 성공"
+                    }
+                }
+            }
+        },
+        "/api/users/friends/{id}": {
+            "delete": {
+                "tags": [
+                    "Friend"
+                ],
+                "summary": "친구 삭제",
+                "operationId": "6e404acd7c9e84b8610491705a78adeb",
+                "responses": {
+                    "200": {
+                        "description": "친구 삭제 성공"
+                    }
+                }
+            }
+        },
+        "/api/users": {
+            "get": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "모든 유저 조회",
+                "operationId": "3d831b22de4e15a8a6fd97ab75646d54",
+                "responses": {
+                    "200": {
+                        "description": "모든 유저 조회 성공"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "유저 탈퇴",
+                "operationId": "1538a0e4bff9c0ce8e405ba6166cb804",
+                "responses": {
+                    "200": {
+                        "description": "유저 탈퇴 성공"
+                    }
+                }
+            }
+        },
+        "/api/users/{id}": {
+            "get": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "특정 유저 조회",
+                "operationId": "f1087e977ddba9baaae5baafc6e9474c",
+                "responses": {
+                    "200": {
+                        "description": "특정 유저 조회 성공"
+                    }
+                }
+            }
+        },
+        "/api/users/profile/image": {
+            "post": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "유저 프로필 이미지 저장",
+                "operationId": "0cc13293c538fcf672397228c5a240ec",
+                "responses": {
+                    "201": {
+                        "description": "유저 프로필 이미지 저장 성공"
+                    }
+                }
+            }
+        },
+        "/api/users/profile": {
+            "patch": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "유저 프로필 등록",
+                "operationId": "f95aa393b0e499490e6ccb5314dbdc1d",
+                "responses": {
+                    "200": {
+                        "description": "유저 프로필 등록 성공"
+                    }
+                }
+            }
+        }
+    },
+    "security": [
+        []
+    ]
+}
