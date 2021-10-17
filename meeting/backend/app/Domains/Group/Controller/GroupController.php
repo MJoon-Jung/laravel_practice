@@ -95,17 +95,12 @@ class GroupController extends Controller
      *     tags={"GROUPS"},
      * )
      */
-    public function update(Group $group, Request $request): ?JsonResponse
+    public function update(Request $request): ?JsonResponse
     {
         $request->validate([
             'name' => 'required|max:50|min:1',
         ]);
-
-        $member = GroupUser::where('group_id', $group->id)->where('user_id', Auth::user()->id)->get();
-        if (!$member[0]->group_admin) {
-            throw new HttpException(403, '그룹장이 아닙니다.');
-        }
-
+        $group = $request->group;
         $group->name = $request->name;
         $group->save();
 
@@ -123,13 +118,9 @@ class GroupController extends Controller
      *     tags={"GROUPS"},
      * )
      */
-    public function destroy(Group $group): ?JsonResponse
+    public function destroy(Request $request): ?JsonResponse
     {
-        $member = GroupUser::where('group_id', $group->id)->where('user_id', Auth::user()->id)->get();
-        if (!$member[0]->group_admin) {
-            throw new HttpException(403, '그룹장이 아닙니다.');
-        }
-        $group->delete();
-        return response()->json(["message" => "success"]);
+        $request->group->delete();
+        return response()->json(["message" => "delete success"]);
     }
 }

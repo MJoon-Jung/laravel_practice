@@ -3,7 +3,7 @@
 namespace App\Repository\User;
 
 use App\Domains\User\Dto\CreateUserProfileDto;
-use App\Domains\User\User;
+use App\Domains\User\Models\User;
 use App\Repository\BaseRepository;
 use Illuminate\Database\Eloquent\Model;
 

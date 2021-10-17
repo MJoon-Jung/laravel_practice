@@ -47,6 +47,9 @@ class RouteServiceProvider extends ServiceProvider
                 ->namespace($this->namespace)
                 ->group(base_path('routes/web.php'));
         });
+        //id parameter 정규식 사용해서 숫자만
+        Route::pattern('id', '[0-9]+');
+        parent::boot();
     }
 
     /**

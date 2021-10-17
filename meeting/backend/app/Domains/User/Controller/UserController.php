@@ -6,9 +6,11 @@ use App\Domains\User\Dto\CreateUserProfileDto;
 use App\Domains\User\Models\User;
 use App\Domains\User\Services\UserService;
 use App\Http\Controllers\Controller;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class UserController extends Controller
 {
@@ -34,6 +36,21 @@ class UserController extends Controller
     public function index(): ?JsonResponse
     {
         return response()->json($this->userService->all(), 200);
+    }
+    public function info(): ?JsonResponse
+    {
+        $id = Auth::user()->id;
+        try {
+            $user = User::where('id', $id)->with([
+                'posts',
+                'likePosts',
+                'groups',
+                'rooms',
+            ])->get();
+        } catch (ModelNotFoundException $exception) {
+            throw new NotFoundHttpException($exception->getMessage(), null, 403);
+        }
+        return response()->json($user, 200);
     }
     /**
      *

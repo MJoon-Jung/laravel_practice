@@ -1,12 +1,11 @@
-<?php
+no-unused-vars<?php
 
+use App\Domains\Group\Controller\GroupController;
 use App\Domains\Post\Controller\PostController;
-use App\Domains\User\Controller\UserController;
+use App\Domains\Room\Controller\RoomController;
 use App\Domains\User\Controller\AuthController;
 use App\Domains\User\Controller\FriendController;
-use App\Http\Controllers\GroupController;
-use App\Http\Controllers\RoomController;
-use App\Http\Controllers\RoomUserController;
+use App\Domains\User\Controller\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -43,6 +42,7 @@ Route::group([
     'middleware' => 'auth',
 ], function () {
     Route::get('/', [UserController::class, "index"]);
+    Route::get('/info', [UserController::class, "info"]);
     //Friend
     Route::group([
         'prefix' => 'friends',
@@ -80,9 +80,11 @@ Route::group([
     Route::get('/', [GroupController::class, "index"]);
     Route::get('/{id}', [GroupController::class, "show"]);
     Route::post('/', [GroupController::class, "store"]);
-    Route::patch('/{group}', [GroupController::class, "update"]);
-    Route::patch('/{id}/invite/{userId}', [GroupController::class, "invite"]);
-    Route::delete('/{group}', [GroupController::class, "destroy"]);
+    Route::middleware(['group.exist', 'group.leader'])->group(function () {
+        Route::patch('/{id}', [GroupController::class, "update"]);
+        Route::patch('/{id}/invite/{userId}', [GroupController::class, "invite"])->middleware('group.not.member');
+        Route::delete('/{id}', [GroupController::class, "destroy"]);
+    });
 });
 
 //Room

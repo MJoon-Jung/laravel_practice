@@ -4,10 +4,12 @@ namespace App\Domains\Group\Models;
 
 use App\Domains\User\Models\User;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Permission\Traits\HasRoles;
 
 class GroupUser extends Model
 {
     protected $table='group_user';
+    
     
     protected $fillable = [
         'user_id',

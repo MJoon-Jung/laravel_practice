@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "14cbd183b28a7b7e1b7e9e2dd4ffe05a",
+    "content-hash": "df1663bc452ac1475879106792bf9d82",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -3111,65 +3111,6 @@
                 }
             ],
             "time": "2021-09-25T23:10:38+00:00"
-        },
-        {
-            "name": "spatie/data-transfer-object",
-            "version": "2.8.3",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/spatie/data-transfer-object.git",
-                "reference": "2625a59566804ec63f01947d85947336237cbda6"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/spatie/data-transfer-object/zipball/2625a59566804ec63f01947d85947336237cbda6",
-                "reference": "2625a59566804ec63f01947d85947336237cbda6",
-                "shasum": ""
-            },
-            "require": {
-                "php": "^7.4|^8.0"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "^9.0"
-            },
-            "suggest": {
-                "phpstan/phpstan": "Take advantage of checkUninitializedProperties with \\Spatie\\DataTransferObject\\PHPstan\\PropertiesAreAlwaysInitializedExtension"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Spatie\\DataTransferObject\\": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Brent Roose",
-                    "email": "brent@spatie.be",
-                    "homepage": "https://spatie.be",
-                    "role": "Developer"
-                }
-            ],
-            "description": "Data transfer objects with batteries included",
-            "homepage": "https://github.com/spatie/data-transfer-object",
-            "keywords": [
-                "data-transfer-object",
-                "spatie"
-            ],
-            "support": {
-                "issues": "https://github.com/spatie/data-transfer-object/issues",
-                "source": "https://github.com/spatie/data-transfer-object/tree/2.8.3"
-            },
-            "funding": [
-                {
-                    "url": "https://www.patreon.com/spatie",
-                    "type": "patreon"
-                }
-            ],
-            "time": "2021-02-12T08:46:52+00:00"
         },
         {
             "name": "swagger-api/swagger-ui",
@@ -9006,27 +8947,28 @@
         },
         {
             "name": "supliu/laravel-query-monitor",
-            "version": "1.0.2",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/supliu/laravel-query-monitor.git",
-                "reference": "f609e30cfc544a3621b8b4799aef6908f89c1ae8"
+                "reference": "6732bf4b11d0953a1fe9a3cf0ee262def50f4e85"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/supliu/laravel-query-monitor/zipball/f609e30cfc544a3621b8b4799aef6908f89c1ae8",
-                "reference": "f609e30cfc544a3621b8b4799aef6908f89c1ae8",
+                "url": "https://api.github.com/repos/supliu/laravel-query-monitor/zipball/6732bf4b11d0953a1fe9a3cf0ee262def50f4e85",
+                "reference": "6732bf4b11d0953a1fe9a3cf0ee262def50f4e85",
                 "shasum": ""
             },
             "require": {
                 "laravel/framework": "^5.6 || ^6.0 || ^7.0 || ^8.0",
-                "php": "^7.3",
+                "php": "^7.3 || ^8.0",
                 "react/socket": "^1.4"
             },
             "require-dev": {
                 "orchestra/testbench": "^3.6 || ^4.0 || ^5.0 || ^6.0",
                 "phpunit/phpunit": "^9.2@dev"
             },
+            "default-branch": true,
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -9063,7 +9005,7 @@
             ],
             "support": {
                 "issues": "https://github.com/supliu/laravel-query-monitor/issues",
-                "source": "https://github.com/supliu/laravel-query-monitor/tree/1.0.2"
+                "source": "https://github.com/supliu/laravel-query-monitor/tree/master"
             },
             "funding": [
                 {
@@ -9071,7 +9013,7 @@
                     "type": "patreon"
                 }
             ],
-            "time": "2021-03-04T14:35:53+00:00"
+            "time": "2021-09-25T15:37:29+00:00"
         },
         {
             "name": "theseer/tokenizer",
@@ -9126,7 +9068,9 @@
     ],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": [],
+    "stability-flags": {
+        "supliu/laravel-query-monitor": 20
+    },
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {

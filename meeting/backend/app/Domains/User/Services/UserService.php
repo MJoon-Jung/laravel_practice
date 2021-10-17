@@ -4,10 +4,7 @@ namespace App\Domains\User\Services;
 
 use App\Domains\User\Dto\CreateUserProfileDto;
 use App\Domains\User\Dto\GoogleOauthDto;
-use App\Domains\User\User;
 use App\Repository\User\UserRepositoryInterface;
-use Exception;
-use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
