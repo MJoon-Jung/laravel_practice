@@ -67,5 +67,9 @@ class Kernel extends HttpKernel
         'group.leader' => \App\Domains\Group\Middleware\CheckGroupLeader::class,
         'group.not.member' => \App\Domains\Group\Middleware\CheckIsNotGroupMember::class,
         'group.exist' => \App\Domains\Group\Middleware\CheckGroupExist::class,
+        'post.exist' => \App\Domains\Post\Middleware\CheckPostExist::class,
+        'post.own' => \App\Domains\Post\Middleware\CheckOwnPost::class,
+        'post.like' => \App\Domains\Post\Middleware\CheckPostLike::class,
+        'post.not.like' => \App\Domains\Post\Middleware\CheckNotPostLike::class,
     ];
 }

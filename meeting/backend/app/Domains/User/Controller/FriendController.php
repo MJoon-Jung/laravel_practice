@@ -3,11 +3,9 @@ namespace App\Domains\User\Controller;
 
 use App\Domains\User\Models\Friend;
 use App\Http\Controllers\Controller;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class FriendController extends Controller
 {
@@ -44,15 +42,6 @@ class FriendController extends Controller
      */
     public function store(int $userId): ?JsonResponse
     {
-        $condition = [Auth::user()->id, $userId];
-        try {
-            $isFriend = DB::table('friends')->whereIn('user_id', $condition)->whereIn('friend_id', $condition)->doesntExist();
-        } catch (ModelNotFoundException $exception) {
-            return response()->json(["message"=>$exception->getMessage()], 404);
-        }
-        if (!$isFriend) {
-            return response()->json(["message" => "이미 존재하는 친구입니다."]);
-        }
         $friend = Friend::create([
             'user_id'=> Auth::user()->id,
             'friend_id' => $userId,
@@ -72,15 +61,10 @@ class FriendController extends Controller
      *     tags={"Friend"},
      * )
      */
-    public function destroy(int $userId): ?JsonResponse
+    public function destroy(Request $request): ?JsonResponse
     {
-        $condition = [Auth::user()->id, $userId];
-        try {
-            $friend = DB::table('friends')->whereIn('user_id', $condition)->whereIn('friend_id', $condition)->get();
-            $friend->delete();
-        } catch (NotFoundHttpException $exception) {
-            return response()->json(["error"=> $exception->getMessage()], 404);
-        }
+        $friend = $request->friend;
+        $friend->delete();
         return response()->json(["message"=> "success"], 200);
     }
 }

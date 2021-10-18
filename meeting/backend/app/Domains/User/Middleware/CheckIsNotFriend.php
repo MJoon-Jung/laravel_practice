@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Domains\Group\Middleware;
+namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
-class CheckGroupMember
+class CheckIsNotFriend
 {
     /**
      * Handle an incoming request.
@@ -21,9 +21,10 @@ class CheckGroupMember
     public function handle(Request $request, Closure $next)
     {
         $id = (int) $request->route('id');
-        $isNotMember = DB::table('group_user')->where('group_id', $id)->where('user_id', Auth::user()->id)->doesntExist();
-        if ($isNotMember) {
-            throw new HttpException(403, "그룹원이 아닙니다.");
+        $credentials = [$id, Auth::user()->id];
+        $isFriend = DB::table('friends')->whereIn('user_id', $credentials)->whereIn('friend_id', $credentials)->exists();
+        if ($isFriend) {
+            throw new HttpException(403, '이미 친구 상태 입니다.');
         }
         return $next($request);
     }

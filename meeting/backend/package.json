@@ -9,6 +9,7 @@
         "prod": "npm run production",
         "production": "mix --production",
         "start": "php artisan serve --port=3065 | php artisan laravel-query-monitor",
+        "query": "php artisan laravel-query-monitor",
         "swagger": "php artisan l5-swagger:generate"
     },
     "devDependencies": {

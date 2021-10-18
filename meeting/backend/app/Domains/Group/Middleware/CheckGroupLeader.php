@@ -21,7 +21,7 @@ class CheckGroupLeader
      */
     public function handle(Request $request, Closure $next)
     {
-        $id = $request->route('id');
+        $id = (int) $request->route('id');
         try {
             $leader = DB::table('group_user')->where('group_id', $id)->where('user_id', Auth::user()->id)->get();
         } catch (ModelNotFoundException $exception) {

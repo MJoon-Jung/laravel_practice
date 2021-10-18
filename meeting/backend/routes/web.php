@@ -1,4 +1,4 @@
-no-unused-vars<?php
+<?php
 
 use App\Domains\Group\Controller\GroupController;
 use App\Domains\Post\Controller\PostController;
@@ -66,10 +66,12 @@ Route::group([
     Route::get('/{id}', [PostController::class, "show"]);
     Route::post('/', [PostController::class, "store"]);
     Route::post('/image', [PostController::class, "image"]);
-    Route::patch('/{id}/like', [PostController::class, "like"]);
-    Route::patch('/{id}', [PostController::class, "update"]);
-    Route::delete('/{id}/like', [PostController::class, "unlike"]);
-    Route::delete('/{id}', [PostController::class, "destroy"]);
+    Route::middleware(['post.exist'])->group(function () {
+        Route::patch('/{id}', [PostController::class, "update"])->middleware('post.own');
+        Route::patch('/{id}/like', [PostController::class, "like"])->middleware('post.not.like');
+        Route::delete('/{id}', [PostController::class, "destroy"])->middleware('post.own');
+        Route::delete('/{id}/like', [PostController::class, "unlike"])->middleware('post.like');
+    });
 });
 
 //Group

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Domains\Group\Middleware;
+namespace App\Domains\Post\Middleware;
 
 use Closure;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
-class CheckGroupMember
+class CheckNotPostLike
 {
     /**
      * Handle an incoming request.
@@ -21,10 +21,11 @@ class CheckGroupMember
     public function handle(Request $request, Closure $next)
     {
         $id = (int) $request->route('id');
-        $isNotMember = DB::table('group_user')->where('group_id', $id)->where('user_id', Auth::user()->id)->doesntExist();
-        if ($isNotMember) {
-            throw new HttpException(403, "그룹원이 아닙니다.");
+        try {
+            $exLike = DB::table('like_post')->where('post_id', $id)->where('user_id', Auth::user()->id)->get();
+        } catch (ModelNotFoundException $exception) {
+            return $next($request);
         }
-        return $next($request);
+        throw new HttpException('403', '이미 좋아요를 누른 상태입니다.');
     }
 }

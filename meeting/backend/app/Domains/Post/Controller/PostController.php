@@ -79,7 +79,7 @@ class PostController extends Controller
             ]);
             $post->save();
 
-            if (!empty($request->image)) {
+            if ($request?->image) {
                 $image = new Image([
                     'image' => $request->image,
                 ]);
@@ -128,17 +128,14 @@ class PostController extends Controller
      *     tags={"Post"},
      * )
      */
-    public function update(int $id, Request $request): ?JsonResponse
+    public function update(Request $request): ?JsonResponse
     {
         $request->validate([
             'title' => 'required|max:100|min:1',
             'content' => 'required|min:1',
         ]);
 
-        $post = Post::find($id);
-        if ($post->user_id !== Auth::user()->id) {
-            throw new HttpException("삭제 권한이 없습니다.", 403);
-        }
+        $post = $request->expost;
 
         DB::transaction(function () use ($request, $post) {
             $post->title = $request->title;
@@ -164,7 +161,7 @@ class PostController extends Controller
             }
         });
 
-        return response()->json(["message" => "update success"], 201);
+        return response()->json(["message" => "update success"], 200);
     }
     /**
      *
@@ -180,14 +177,6 @@ class PostController extends Controller
      */
     public function like(int $postId): ?JsonResponse
     {
-        try {
-            $exLike = DB::table('like_post')->where('post_id', $postId)->where('user_id', Auth::user()->id)->doesntExist();
-        } catch (ModelNotFoundException $exception) {
-            return response()->json(["message"=>$exception->getMessage()], 404);
-        }
-        if (!$exLike) {
-            throw new HttpException("이미 좋아요 한 상태입니다.", 403);
-        }
         $like = new LikePost([
             'user_id'=> Auth::user()->id,
             'post_id'=> $postId,
@@ -207,17 +196,9 @@ class PostController extends Controller
      *     tags={"Post"},
      * )
      */
-    public function unLike(int $id): ?JsonResponse
+    public function unLike(Request $request): ?JsonResponse
     {
-        try {
-            $exLike = DB::table('like_post')->where('post_id', $id)->where('user_id', Auth::user()->id)->doesntExist();
-        } catch (ModelNotFoundException $exception) {
-            return response()->json(["message"=>$exception->getMessage()], 404);
-        }
-        if ($exLike) {
-            throw new HttpException("이미 좋아요 하지 않은 상태입니다.", 403);
-        }
-        $like = LikePost::where('post_id', $id)->where('user_id', Auth::user()->id);
+        $like = $request->exLike;
         $like->delete();
         return response()->json(["message"=> "unlike success"]);
     }

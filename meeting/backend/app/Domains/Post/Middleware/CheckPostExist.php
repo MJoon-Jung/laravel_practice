@@ -1,15 +1,14 @@
 <?php
 
-namespace App\Domains\Group\Middleware;
+namespace App\Domains\Post\Middleware;
 
+use App\Domains\Post\Models\Post;
 use Closure;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
-class CheckGroupMember
+class CheckPostExist
 {
     /**
      * Handle an incoming request.
@@ -21,10 +20,12 @@ class CheckGroupMember
     public function handle(Request $request, Closure $next)
     {
         $id = (int) $request->route('id');
-        $isNotMember = DB::table('group_user')->where('group_id', $id)->where('user_id', Auth::user()->id)->doesntExist();
-        if ($isNotMember) {
-            throw new HttpException(403, "그룹원이 아닙니다.");
+        try {
+            $post = Post::where('id', $id)->get();
+        } catch (ModelNotFoundException $exception) {
+            throw new HttpException(404, "게시물이 존재하지 않습니다.");
         }
+        $request->exPost = $post;
         return $next($request);
     }
 }

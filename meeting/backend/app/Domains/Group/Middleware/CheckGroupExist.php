@@ -19,7 +19,7 @@ class CheckGroupExist
      */
     public function handle(Request $request, Closure $next)
     {
-        $id = $request->route('id');
+        $id = (int) $request->route('id');
         try {
             $group = Group::where('id', $id)->get();
             $request->group = $group;
